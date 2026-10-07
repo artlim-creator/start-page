@@ -1,24 +1,26 @@
 # Start Page
 
-Art's browser start page: greeting and clock, Google search, next 5 events from somphot@wellnessme.co.th, live weather, 8 AI-picked daily quotes, and quick links.
+Art's browser start page: greeting and clock, Google search, next 5 events from an Outlook calendar, live weather, 8 daily quotes written by Claude, and quick links.
 
-## Publish with GitHub Pages
+Live at https://artlim-creator.github.io/start-page/ (GitHub Pages, deployed from `main` / root).
 
-1. Create a new repository on GitHub (e.g. `start-page`).
-2. Upload everything in this folder (Add file > Upload files), then Commit.
-3. Settings > Pages: Source "Deploy from a branch", Branch `main`, folder `/ (root)`, Save.
-4. After a minute it's live at `https://<your-username>.github.io/start-page/`.
+## How the live parts work
 
-## Connect the calendar and AI quotes
+- **Weather**: browser location (falls back to Chiang Mai) + Open-Meteo. No key needed.
+- **Next actions + AI quotes**: a small Google Apps Script (`setup/start-page-feed.gs`) reads the Outlook calendar's published ICS link and asks the Claude API for 8 quotes once a day. The page reads its JSON.
+- Until the feed is connected the page shows 8 built-in quotes that rotate daily.
 
-One Google Apps Script powers both. Follow the steps at the top of `setup/start-page-feed.gs`
-(sign in as somphot@wellnessme.co.th, paste the script, add a free Gemini API key, deploy as a web app),
-then paste the web-app link plus `?key=YOUR_KEY` into `FEED_URL` near the bottom of `index.html`.
+## Connect the feed
 
-Until it's connected, the page shows 8 built-in quotes that rotate daily.
+1. Create a Google Apps Script project and paste in `setup/start-page-feed.gs`.
+2. Put your Outlook ICS link in `OUTLOOK_ICS_URL` and a long random word in `FEED_KEY` (in your private copy only).
+3. Add script property `ANTHROPIC_API_KEY` (Project Settings > Script properties).
+4. Run `testFeed` and `installDailyTrigger` once; Deploy > Web app (Execute as me, access Anyone).
+5. Open the start page and paste `<web app URL>?key=<FEED_KEY>` into the Connect box. It is stored only in your own browser (localStorage), never in this repo.
 
-Note: free GitHub Pages sites are public. Anyone who finds the page could read the feed link in it and see
-your next 5 event titles. Keep your real KEY and Gemini key out of the copy of the script in this repo.
+## Privacy
+
+This repo and site are public. Do not commit your ICS link, `FEED_KEY` or API key. The feed address is kept in your browser only; anyone who has it can read your next 5 event titles.
 
 ## Edit links
 

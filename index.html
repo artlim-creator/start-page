@@ -49,8 +49,9 @@ a:hover{color:#7A4520}
 <div class="cards">
 
 <section style="display: flex; flex-direction: column; gap: 14px; padding: 22px 24px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 16px; box-sizing: border-box; min-height: 250px">
-<div style="display: flex; justify-content: space-between; align-items: baseline"><h2 style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: #6B655C">Next actions</h2><a href="https://calendar.google.com/calendar/r?authuser=somphot%40wellnessme.co.th" target="_blank" rel="noopener" style="font-size: 13px; color: #6B655C">Open calendar</a></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline"><h2 style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: #6B655C">Next actions</h2><a href="https://outlook.office.com/calendar" target="_blank" rel="noopener" style="font-size: 13px; color: #6B655C">Open calendar</a></div>
 <div id="events" style="display: flex; flex-direction: column"><div class="muted" style="font-size: 14px">Loading your calendar…</div></div>
+<div id="feed-foot" style="margin-top: auto; font-size: 11px"></div>
 </section>
 
 <section style="display: flex; flex-direction: column; gap: 14px; padding: 22px 24px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 16px; box-sizing: border-box; min-height: 250px">
@@ -124,9 +125,11 @@ a:hover{color:#7A4520}
 <script>
 /* ===== SETTINGS ===== */
 var NAME = 'Art';
-// Paste your Google Apps Script web-app link here (see setup/start-page-feed.gs), ending in ?key=YOUR_KEY
-// It supplies BOTH the next 5 events from somphot@wellnessme.co.th AND today's 8 AI-picked quotes.
+// The feed link (Apps Script web-app URL ending in ?key=...) is NOT stored in this public file.
+// Paste it into the "Connect" box on the page once; it is kept only in your own browser.
+// It supplies the next 5 Outlook events AND today's 8 AI-written quotes.
 var FEED_URL = '';
+try{var _f=localStorage.getItem('sp_feed_url');if(_f)FEED_URL=_f;}catch(e){}
 // Used when the browser can't share its location
 var FALLBACK = { lat: 18.7883, lon: 98.9853, name: 'Chiang Mai' };
 /* ==================== */
@@ -242,7 +245,7 @@ function msg(t){return '<div class="muted" style="font-size:14px;line-height:1.5
 function renderEvents(d){
   var box=document.getElementById('events');
   if(d.eventsError){box.innerHTML=msg('Calendar error: '+esc(d.eventsError));return;}
-  if(!d.events||!d.events.length){box.innerHTML=msg('Nothing scheduled on somphot@wellnessme.co.th. Clear runway.');return;}
+  if(!d.events||!d.events.length){box.innerHTML=msg('Nothing coming up on your Outlook calendar. Clear runway.');return;}
   box.innerHTML=d.events.slice(0,5).map(function(ev){
     return '<div class="row"><span style="width:112px;flex-shrink:0;font-size:13px;font-weight:600;color:#7A4520;font-variant-numeric:tabular-nums">'+esc(fmtWhen(ev))+'</span>'+
       '<span style="font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+esc(ev.title)+'">'+esc(ev.title||'(No title)')+'</span></div>';
@@ -253,12 +256,26 @@ function applyFeed(d){
   if(d.quotes&&d.quotes.length)setQuotes(d.quotes.map(function(q){return {tag:q.category,text:q.text,author:q.author,source:q.source};}),'Picked by AI for today');
   else if(d.quotesError)setQuotes(null,'Showing built-in quotes (AI: '+d.quotesError+')');
 }
+function showConnect(){
+  document.getElementById('events').innerHTML=msg('Connect your Outlook calendar and AI quotes: paste your feed link once. It stays only in this browser.')+
+    '<div style="display:flex;gap:8px;margin-top:10px"><label for="feed-in" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Feed link</label>'+
+    '<input id="feed-in" type="url" placeholder="https://script.google.com/macros/s/.../exec?key=..." autocomplete="off" style="flex:1;min-width:0;height:40px;padding:0 12px;font:inherit;font-size:13px;color:#1F1D1A;background:#FFFDF9;border:1px solid #DDD4C6;border-radius:10px">'+
+    '<button id="feed-save" type="button" class="btn" style="height:40px;padding:0 16px;font:inherit;font-size:14px;font-weight:600;color:#FFFDF9;background:#7A4520;border:none;border-radius:10px;cursor:pointer">Connect</button></div>';
+  document.getElementById('feed-save').onclick=function(){
+    var v=document.getElementById('feed-in').value.trim();
+    if(v.indexOf('https://script.google.com/')!==0){document.getElementById('feed-in').style.borderColor='#B3261E';return;}
+    try{localStorage.setItem('sp_feed_url',v);}catch(e){}
+    location.reload();
+  };
+}
 function loadFeed(){
   if(!FEED_URL){
-    document.getElementById('events').innerHTML=msg('Connect somphot@wellnessme.co.th: paste your Apps Script link into FEED_URL in this file.');
-    setQuotes(null,'Built-in quotes. Connect the feed for 8 new AI-picked quotes each day.');
+    showConnect();
+    setQuotes(null,'Built-in quotes. Connect the feed for 8 new AI-written quotes each day.');
     return;
   }
+  document.getElementById('feed-foot').innerHTML='<button type="button" id="feed-reset" class="muted" style="background:none;border:none;padding:0;font:inherit;cursor:pointer;text-decoration:underline">Disconnect feed</button>';
+  document.getElementById('feed-reset').onclick=function(){try{localStorage.removeItem('sp_feed_url');localStorage.removeItem('sp_feed');}catch(e){}location.reload();};
   // show the last result instantly, then refresh
   try{var c=JSON.parse(localStorage.getItem('sp_feed')||'null');if(c&&c.day===new Date().toDateString())applyFeed(c.data);}catch(e){}
   fetch(FEED_URL).then(function(r){return r.json()}).then(function(d){
