@@ -1,18 +1,25 @@
-# Art’s Start Page
+# Start Page
 
-Static browser start page for GitHub Pages. No build step or API key is needed.
+Art's browser start page: greeting and clock, Google search, next 5 events from somphot@wellnessme.co.th, live weather, 8 AI-picked daily quotes, and quick links.
 
-## Features
-- Local clock and greeting, Google search, daily quote and Another button.
-- Open-Meteo weather for Chiang Mai; Use my location requests browser permission.
-- Google Calendar agenda for the work account. Calendar access stays controlled by Google: sign in to an account with permission. Open calendar provides a fallback if the embedded view is blocked.
-- Original quick links and responsive layout.
+## Publish with GitHub Pages
 
-## Publish
-Upload index.html, README.md and .nojekyll to the repository root. In Settings → Pages, deploy main from / (root).
+1. Create a new repository on GitHub (e.g. `start-page`).
+2. Upload everything in this folder (Add file > Upload files), then Commit.
+3. Settings > Pages: Source "Deploy from a branch", Branch `main`, folder `/ (root)`, Save.
+4. After a minute it's live at `https://<your-username>.github.io/start-page/`.
 
-## Browser setup
-Set the published URL as your browser’s startup page and home page. A custom new-tab page is a separate browser feature and may require an extension.
+## Connect the calendar and AI quotes
 
-## Privacy
-The source, quick links and calendar identifier are public when published. Calendar events are loaded directly from Google for authorized viewers; no event data or secret calendar feed is stored in the repository. The noindex hint discourages search indexing but does not restrict access.
+One Google Apps Script powers both. Follow the steps at the top of `setup/start-page-feed.gs`
+(sign in as somphot@wellnessme.co.th, paste the script, add a free Gemini API key, deploy as a web app),
+then paste the web-app link plus `?key=YOUR_KEY` into `FEED_URL` near the bottom of `index.html`.
+
+Until it's connected, the page shows 8 built-in quotes that rotate daily.
+
+Note: free GitHub Pages sites are public. Anyone who finds the page could read the feed link in it and see
+your next 5 event titles. Keep your real KEY and Gemini key out of the copy of the script in this repo.
+
+## Edit links
+
+Each link is one `<a class="tile" ...>` line in `index.html`. Copy a line and change the URL, name and badge.

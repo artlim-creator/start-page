@@ -3,10 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Art’s Start Page</title>
-<meta name="robots" content="noindex, nofollow">
-<meta name="referrer" content="no-referrer">
-<meta name="theme-color" content="#F5F1EA">
+<title>Start</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap">
 <style>
@@ -16,9 +13,6 @@ a:hover{color:#7A4520}
 .tile{transition:background-color .15s ease,border-color .15s ease}
 .tile:hover{background-color:#FFFFFF;border-color:#C9B8A2}
 .tile:focus-visible,.btn:focus-visible{outline:2px solid #7A4520;outline-offset:2px}
-.q{min-width:0;width:100%}
-form{max-width:100%}
-a:focus-visible,button:focus-visible{outline:2px solid #7A4520;outline-offset:3px}
 .q:focus{outline:none;border-color:#7A4520}
 *{box-sizing:border-box}
 .wrap{max-width:1440px;margin:0 auto;padding:56px 96px;display:flex;flex-direction:column;gap:32px}
@@ -30,8 +24,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #7A4520;outline-offset:3p
 .row{display:flex;gap:14px;align-items:baseline;padding:7px 0;border-top:1px solid #ECE5DA}
 .row:first-child{border-top:none}
 .muted{color:#6B655C}
-.btn-link{background:none;border:none;padding:0;font:inherit;font-size:13px;color:#6B655C;cursor:pointer}
-.btn-link:hover{color:#7A4520}
+.nav:hover{border-color:#C9B8A2 !important;background:#FFFFFF !important;color:#7A4520 !important}
 @media (max-width:1100px){.wrap{padding:40px 32px}.cards{grid-template-columns:1fr}.links{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){.wrap{padding:28px 16px}.links{grid-template-columns:1fr}.span2{grid-column:auto}form{width:100% !important}}
 </style>
@@ -56,9 +49,8 @@ a:focus-visible,button:focus-visible{outline:2px solid #7A4520;outline-offset:3p
 <div class="cards">
 
 <section style="display: flex; flex-direction: column; gap: 14px; padding: 22px 24px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 16px; box-sizing: border-box; min-height: 250px">
-<div style="display: flex; justify-content: space-between; align-items: baseline"><h2 style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: #6B655C">Next actions</h2><a href="https://calendar.google.com/calendar/?authuser=somphot%40wellnessme.co.th" target="_blank" rel="noopener" style="font-size: 13px; color: #6B655C">Open calendar</a></div>
-<iframe id="calendar" title="Work calendar agenda" src="https://calendar.google.com/calendar/embed?src=somphot%40wellnessme.co.th&amp;ctz=Asia%2FBangkok&amp;mode=AGENDA&amp;showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0" style="border:0;width:100%;height:300px;border-radius:8px"></iframe>
-<p class="muted" style="font-size:12px;line-height:1.5;margin:0">Sign in to your work Google account to see your private agenda. If it does not appear here, use Open calendar.</p>
+<div style="display: flex; justify-content: space-between; align-items: baseline"><h2 style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: #6B655C">Next actions</h2><a href="https://calendar.google.com/calendar/r?authuser=somphot%40wellnessme.co.th" target="_blank" rel="noopener" style="font-size: 13px; color: #6B655C">Open calendar</a></div>
+<div id="events" style="display: flex; flex-direction: column"><div class="muted" style="font-size: 14px">Loading your calendar…</div></div>
 </section>
 
 <section style="display: flex; flex-direction: column; gap: 14px; padding: 22px 24px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 16px; box-sizing: border-box; min-height: 250px">
@@ -72,13 +64,20 @@ a:focus-visible,button:focus-visible{outline:2px solid #7A4520;outline-offset:3p
 </div>
 <div class="muted" style="display: flex; gap: 20px; font-size: 13px; flex-wrap: wrap"><span id="wx-hilo"></span><span id="wx-rain"></span><span id="wx-feels"></span></div>
 <div id="wx-place" class="muted" style="font-size: 13px"></div>
-<button id="wx-location" class="btn-link" type="button" style="text-align:left">Use my location</button>
 </section>
 
 <section style="display: flex; flex-direction: column; gap: 14px; padding: 22px 24px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 16px; box-sizing: border-box; min-height: 250px; justify-content: space-between">
-<div style="display: flex; justify-content: space-between; align-items: baseline"><h2 style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: #6B655C">Daily quote</h2><span><span id="q-tag" class="muted" style="font-size: 12px"></span> · <button id="q-next" class="btn-link" type="button">Another</button></span></div>
-<blockquote id="q-text" style="margin: 0; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 22px; line-height: 1.35"></blockquote>
-<div class="muted" style="font-size: 14px"><span id="q-author" style="font-weight: 600; color: #1F1D1A"></span> <span id="q-src"></span></div>
+<div style="display: flex; justify-content: space-between; align-items: baseline"><h2 style="margin: 0; font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: #6B655C">Daily quotes</h2><span id="q-tag" style="font-size: 12px; font-weight: 600; color: #7A4520"></span></div>
+<blockquote id="q-text" style="margin: 0; font-family: Newsreader, Georgia, serif; font-style: italic; font-size: 21px; line-height: 1.35"></blockquote>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px">
+<div class="muted" style="font-size: 14px; min-width: 0"><span id="q-author" style="font-weight: 600; color: #1F1D1A"></span> <span id="q-src"></span></div>
+<div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0">
+<button id="q-prev" class="btn nav" type="button" aria-label="Previous quote" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; padding: 0; background: #FFFDF9; border: 1px solid #DDD4C6; border-radius: 20px; color: #1F1D1A; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<span id="q-pos" class="muted" style="font-size: 13px; min-width: 36px; text-align: center; font-variant-numeric: tabular-nums"></span>
+<button id="q-next" class="btn nav" type="button" aria-label="Next quote" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; padding: 0; background: #FFFDF9; border: 1px solid #DDD4C6; border-radius: 20px; color: #1F1D1A; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg></button>
+</div>
+</div>
+<div id="q-note" class="muted" style="font-size: 11px; margin-top: -6px"></div>
 </section>
 
 </div>
@@ -87,7 +86,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #7A4520;outline-offset:3p
 <div style="display: flex; flex-direction: column; gap: 10px">
 <div style="font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: #6B655C; padding-bottom: 2px">Google</div>
 <a class="tile" href="https://mail.google.com" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #EDE3D6; color: #7A4520; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">G</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Gmail</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">mail.google.com</span></span></a>
-<a class="tile" href="https://calendar.google.com/calendar/?authuser=somphot%40wellnessme.co.th" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #EDE3D6; color: #7A4520; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">C</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Calendar</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">calendar.google.com</span></span></a>
+<a class="tile" href="https://calendar.google.com" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #EDE3D6; color: #7A4520; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">C</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Calendar</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">calendar.google.com</span></span></a>
 <a class="tile" href="https://drive.google.com" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #EDE3D6; color: #7A4520; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">D</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Drive</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">drive.google.com</span></span></a>
 <a class="tile" href="https://chat.google.com" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #EDE3D6; color: #7A4520; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">Ch</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Chat</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">chat.google.com</span></span></a>
 </div>
@@ -97,6 +96,7 @@ a:focus-visible,button:focus-visible{outline:2px solid #7A4520;outline-offset:3p
 <a class="tile" href="https://www.notion.so" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #E3E6DA; color: #4A5A2E; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">N</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Notion</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">notion.so</span></span></a>
 <a class="tile" href="https://www.canva.com" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #E3E6DA; color: #4A5A2E; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">Ca</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Canva</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">canva.com</span></span></a>
 <a class="tile" href="https://claude.ai" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #E3E6DA; color: #4A5A2E; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">Cl</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Claude</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">claude.ai</span></span></a>
+<a class="tile" href="https://chatgpt.com" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #E3E6DA; color: #4A5A2E; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">GP</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">ChatGPT</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">chatgpt.com</span></span></a>
 <a class="tile" href="https://www.office.com" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #E3E6DA; color: #4A5A2E; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">O</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Office 365</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">office.com</span></span></a>
 <a class="tile" href="https://gemini.google.com" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #E3E6DA; color: #4A5A2E; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">Ge</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Gemini</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">gemini.google.com</span></span></a>
 <a class="tile" href="https://grok.com" target="_blank" rel="noopener" style="display: flex; align-items: center; gap: 12px; padding: 10px 12px; background: #FBF8F3; border: 1px solid #E4DDD1; border-radius: 12px; min-height: 56px; box-sizing: border-box"><span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #E3E6DA; color: #4A5A2E; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 13px">Gk</span><span style="display: flex; flex-direction: column; gap: 1px; min-width: 0"><span style="font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">Grok</span><span style="font-size: 12px; color: #6B655C; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">grok.com</span></span></a>
@@ -124,11 +124,26 @@ a:focus-visible,button:focus-visible{outline:2px solid #7A4520;outline-offset:3p
 <script>
 /* ===== SETTINGS ===== */
 var NAME = 'Art';
+// Paste your Google Apps Script web-app link here (see setup/start-page-feed.gs), ending in ?key=YOUR_KEY
+// It supplies BOTH the next 5 events from somphot@wellnessme.co.th AND today's 8 AI-picked quotes.
+var FEED_URL = '';
 // Used when the browser can't share its location
 var FALLBACK = { lat: 18.7883, lon: 98.9853, name: 'Chiang Mai' };
 /* ==================== */
 
-var QUOTES = [{"tag": "Stoicism", "text": "We suffer more often in imagination than in reality.", "author": "Seneca", "source": "Letters to Lucilius, 13"}, {"tag": "Stoicism", "text": "While we are postponing, life speeds by.", "author": "Seneca", "source": "Letters to Lucilius, 1"}, {"tag": "Stoicism", "text": "Men are disturbed not by things, but by the views which they take of things.", "author": "Epictetus", "source": "Enchiridion, 5"}, {"tag": "Stoicism", "text": "No man is free who is not master of himself.", "author": "Epictetus", "source": "Fragments"}, {"tag": "Stoicism", "text": "The impediment to action advances action. What stands in the way becomes the way.", "author": "Marcus Aurelius", "source": "Meditations, 5.20"}, {"tag": "Stoicism", "text": "Waste no more time arguing about what a good man should be. Be one.", "author": "Marcus Aurelius", "source": "Meditations, 10.16"}, {"tag": "Buddhism", "text": "Mind is the forerunner of all actions.", "author": "The Buddha", "source": "Dhammapada, 1"}, {"tag": "Buddhism", "text": "Hatred is never appeased by hatred in this world. By non-hatred alone is hatred appeased.", "author": "The Buddha", "source": "Dhammapada, 5"}, {"tag": "Buddhism", "text": "Better than a thousand hollow words is one word that brings peace.", "author": "The Buddha", "source": "Dhammapada, 100"}, {"tag": "Investing", "text": "Price is what you pay. Value is what you get.", "author": "Warren Buffett", "source": "Berkshire Hathaway letter, 2008"}, {"tag": "Investing", "text": "Someone's sitting in the shade today because someone planted a tree a long time ago.", "author": "Warren Buffett", "source": ""}, {"tag": "Investing", "text": "The big money is not in the buying and selling, but in the waiting.", "author": "Charlie Munger", "source": ""}, {"tag": "Investing", "text": "It is remarkable how much long-term advantage people like us have gotten by trying to be consistently not stupid, instead of trying to be very intelligent.", "author": "Charlie Munger", "source": ""}, {"tag": "Investing", "text": "Know what you own, and know why you own it.", "author": "Peter Lynch", "source": ""}, {"tag": "Investing", "text": "The investor's chief problem, and even his worst enemy, is likely to be himself.", "author": "Benjamin Graham", "source": "The Intelligent Investor"}, {"tag": "Investing", "text": "What seems too high and risky to the majority generally goes higher, and what seems low and cheap generally goes lower.", "author": "William O'Neil", "source": "How to Make Money in Stocks"}, {"tag": "Entrepreneurs", "text": "If you double the number of experiments you do per year, you're going to double your inventiveness.", "author": "Jeff Bezos", "source": ""}, {"tag": "Entrepreneurs", "text": "Stay hungry. Stay foolish.", "author": "Steve Jobs", "source": "Stanford commencement, 2005"}];
+// Built-in quotes, used only until the feed is connected (or if it's unreachable)
+var QUOTES = [{"tag": "Stoicism", "text": "We suffer more often in imagination than in reality.", "author": "Seneca", "source": "Letters to Lucilius, 13"}, {"tag": "Stoicism", "text": "While we are postponing, life speeds by.", "author": "Seneca", "source": "Letters to Lucilius, 1"}, {"tag": "Stoicism", "text": "Men are disturbed not by things, but by the views which they take of things.", "author": "Epictetus", "source": "Enchiridion, 5"}, {"tag": "Stoicism", "text": "No man is free who is not master of himself.", "author": "Epictetus", "source": "Fragments"}, {"tag": "Stoicism", "text": "The impediment to action advances action. What stands in the way becomes the way.", "author": "Marcus Aurelius", "source": "Meditations, 5.20"}, {"tag": "Stoicism", "text": "Waste no more time arguing about what a good man should be. Be one.", "author": "Marcus Aurelius", "source": "Meditations, 10.16"}, {"tag": "Buddhism", "text": "Mind is the forerunner of all actions.", "author": "The Buddha", "source": "Dhammapada, 1"}, {"tag": "Buddhism", "text": "Hatred is never appeased by hatred in this world. By non-hatred alone is hatred appeased.", "author": "The Buddha", "source": "Dhammapada, 5"}, {"tag": "Buddhism", "text": "Better than a thousand hollow words is one word that brings peace.", "author": "The Buddha", "source": "Dhammapada, 100"}, {"tag": "Buddhism", "text": "Though one may conquer a thousand times a thousand men in battle, yet he indeed is the noblest victor who conquers himself.", "author": "The Buddha", "source": "Dhammapada, 103"}, {"tag": "Entrepreneurs", "text": "If you double the number of experiments you do per year, you're going to double your inventiveness.", "author": "Jeff Bezos", "source": ""}, {"tag": "Entrepreneurs", "text": "We are stubborn on vision. We are flexible on details.", "author": "Jeff Bezos", "source": ""}, {"tag": "Entrepreneurs", "text": "Stay hungry. Stay foolish.", "author": "Steve Jobs", "source": "Stanford commencement, 2005"}, {"tag": "Entrepreneurs", "text": "If you are not embarrassed by the first version of your product, you've launched too late.", "author": "Reid Hoffman", "source": ""}, {"tag": "Investors", "text": "Price is what you pay. Value is what you get.", "author": "Warren Buffett", "source": "Berkshire Hathaway letter, 2008"}, {"tag": "Investors", "text": "Someone's sitting in the shade today because someone planted a tree a long time ago.", "author": "Warren Buffett", "source": ""}, {"tag": "Investors", "text": "The big money is not in the buying and selling, but in the waiting.", "author": "Charlie Munger", "source": ""}, {"tag": "Investors", "text": "It is remarkable how much long-term advantage people like us have gotten by trying to be consistently not stupid, instead of trying to be very intelligent.", "author": "Charlie Munger", "source": ""}, {"tag": "Investors", "text": "Know what you own, and know why you own it.", "author": "Peter Lynch", "source": ""}, {"tag": "Investors", "text": "The investor's chief problem, and even his worst enemy, is likely to be himself.", "author": "Benjamin Graham", "source": "The Intelligent Investor"}, {"tag": "Investors", "text": "What seems too high and risky to the majority generally goes higher, and what seems low and cheap generally goes lower.", "author": "William O'Neil", "source": "How to Make Money in Stocks"}];
+function dailyEight(list, day){
+  var cats=['Stoicism','Buddhism','Entrepreneurs','Investors'], out=[];
+  cats.forEach(function(c){
+    var xs=list.filter(function(q){return q.tag===c});
+    if(!xs.length)return;
+    out.push(xs[(day*2)%xs.length]);
+    if(xs.length>1)out.push(xs[(day*2+1)%xs.length]);
+  });
+  return out;
+}
+function dayOfYear(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000);}
 
 function pad(n){return n<10?'0'+n:''+n}
 function tick(){
@@ -139,17 +154,24 @@ function tick(){
 }
 tick(); setInterval(tick, 10000);
 
-/* Quote: one per day, "Another" cycles */
-var qi=Math.floor((new Date()-new Date(new Date().getFullYear(),0,0))/86400000)%QUOTES.length;
+/* Quotes: 8 a day (2 Stoicism, 2 Buddhism, 2 Entrepreneurs, 2 Investors), browse with < > */
+var today8=dailyEight(QUOTES, dayOfYear(new Date())), qi=0;
 function showQuote(){
-  var q=QUOTES[qi];
-  document.getElementById('q-tag').textContent=q.tag;
+  var n=today8.length, q=today8[((qi%n)+n)%n];
+  document.getElementById('q-tag').textContent=q.tag||q.category||'';
   document.getElementById('q-text').textContent='\u201C'+q.text+'\u201D';
   document.getElementById('q-author').textContent=q.author;
   document.getElementById('q-src').textContent=q.source?'\u00B7 '+q.source:'';
+  document.getElementById('q-pos').textContent=(((qi%n)+n)%n+1)+' / '+n;
+}
+function setQuotes(list, note){
+  if(list&&list.length){today8=list;qi=0;}
+  document.getElementById('q-note').textContent=note||'';
+  showQuote();
 }
 showQuote();
-document.getElementById('q-next').onclick=function(){qi=(qi+1)%QUOTES.length;showQuote();};
+document.getElementById('q-prev').onclick=function(){qi--;showQuote();};
+document.getElementById('q-next').onclick=function(){qi++;showQuote();};
 
 /* Weather: browser location -> Open-Meteo (no key needed) */
 var ICONS={
@@ -176,11 +198,10 @@ function wmo(c){
   return['—','cloud'];
 }
 function loadWeather(lat,lon,fallbackName){
-  weatherLocation={lat:lat,lon:lon,name:fallbackName};
   var u='https://api.open-meteo.com/v1/forecast?latitude='+lat+'&longitude='+lon+
     '&current=temperature_2m,apparent_temperature,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&forecast_days=1';
-  fetch(u, {signal:AbortSignal.timeout(15000)}).then(function(r){if(!r.ok)throw new Error("Weather request failed");return r.json()}).then(function(d){
-    var c=d.current; if(!c || !d.daily || !Number.isFinite(c.temperature_2m))throw new Error("Invalid weather response"); var w=wmo(c.weather_code);
+  fetch(u).then(function(r){return r.json()}).then(function(d){
+    var c=d.current, w=wmo(c.weather_code);
     document.getElementById('wx-temp').textContent=Math.round(c.temperature_2m)+'°';
     document.getElementById('wx-cond').textContent=w[0];
     document.getElementById('wx-icon').innerHTML='<svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#7A4520" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+ICONS[w[1]]+'</svg>';
@@ -191,7 +212,6 @@ function loadWeather(lat,lon,fallbackName){
     var t=new Date();document.getElementById('wx-updated').textContent='Updated '+pad(t.getHours())+':'+pad(t.getMinutes());
   }).catch(function(){document.getElementById('wx-cond').textContent='Weather unavailable';});
   if(fallbackName){document.getElementById('wx-place').textContent=fallbackName;return;}
-  document.getElementById('wx-place').textContent='Current location';
   fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?latitude='+lat+'&longitude='+lon+'&localityLanguage=en')
     .then(function(r){return r.json()}).then(function(g){
       document.getElementById('wx-place').textContent=[g.city||g.locality,g.countryName].filter(Boolean).join(', ');
@@ -204,11 +224,52 @@ function startWeather(){
     function(){loadWeather(FALLBACK.lat,FALLBACK.lon,FALLBACK.name+' (location off)');},
     {maximumAge:1800000,timeout:8000});
 }
-var weatherLocation={lat:FALLBACK.lat,lon:FALLBACK.lon,name:FALLBACK.name};
-loadWeather(weatherLocation.lat,weatherLocation.lon,weatherLocation.name);
-document.getElementById('wx-location').onclick=startWeather;
-setInterval(function(){loadWeather(weatherLocation.lat,weatherLocation.lon,weatherLocation.name);},1800000);
+startWeather(); setInterval(startWeather, 1800000);
 
+/* Next actions: Google Apps Script feed */
+function fmtWhen(ev){
+  var s=new Date(ev.start), now=new Date();
+  var today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  var d0=new Date(s.getFullYear(),s.getMonth(),s.getDate());
+  var diff=Math.round((d0-today)/86400000);
+  var day=diff<=0?'Today':diff===1?'Tomorrow':s.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+  if(ev.allDay)return day+' · All day';
+  if(s<=now)return 'Now';
+  return day+' '+pad(s.getHours())+':'+pad(s.getMinutes());
+}
+function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+function msg(t){return '<div class="muted" style="font-size:14px;line-height:1.5">'+t+'</div>';}
+function renderEvents(d){
+  var box=document.getElementById('events');
+  if(d.eventsError){box.innerHTML=msg('Calendar error: '+esc(d.eventsError));return;}
+  if(!d.events||!d.events.length){box.innerHTML=msg('Nothing scheduled on somphot@wellnessme.co.th. Clear runway.');return;}
+  box.innerHTML=d.events.slice(0,5).map(function(ev){
+    return '<div class="row"><span style="width:112px;flex-shrink:0;font-size:13px;font-weight:600;color:#7A4520;font-variant-numeric:tabular-nums">'+esc(fmtWhen(ev))+'</span>'+
+      '<span style="font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+esc(ev.title)+'">'+esc(ev.title||'(No title)')+'</span></div>';
+  }).join('');
+}
+function applyFeed(d){
+  renderEvents(d);
+  if(d.quotes&&d.quotes.length)setQuotes(d.quotes.map(function(q){return {tag:q.category,text:q.text,author:q.author,source:q.source};}),'Picked by AI for today');
+  else if(d.quotesError)setQuotes(null,'Showing built-in quotes (AI: '+d.quotesError+')');
+}
+function loadFeed(){
+  if(!FEED_URL){
+    document.getElementById('events').innerHTML=msg('Connect somphot@wellnessme.co.th: paste your Apps Script link into FEED_URL in this file.');
+    setQuotes(null,'Built-in quotes. Connect the feed for 8 new AI-picked quotes each day.');
+    return;
+  }
+  // show the last result instantly, then refresh
+  try{var c=JSON.parse(localStorage.getItem('sp_feed')||'null');if(c&&c.day===new Date().toDateString())applyFeed(c.data);}catch(e){}
+  fetch(FEED_URL).then(function(r){return r.json()}).then(function(d){
+    if(d.error)throw new Error(d.error);
+    applyFeed(d);
+    try{localStorage.setItem('sp_feed',JSON.stringify({day:new Date().toDateString(),data:d}));}catch(e){}
+  }).catch(function(){
+    if(!document.querySelector('#events .row'))document.getElementById('events').innerHTML=msg('Couldn\'t reach your calendar feed right now.');
+  });
+}
+loadFeed(); setInterval(loadFeed, 300000);
 </script>
 </body>
 </html>
