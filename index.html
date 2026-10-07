@@ -221,10 +221,14 @@ function loadWeather(lat,lon,fallbackName){
     }).catch(function(){});
 }
 function startWeather(){
-  if(!navigator.geolocation){loadWeather(FALLBACK.lat,FALLBACK.lon,FALLBACK.name+' (default)');return;}
+  var done=false;
+  function once(lat,lon,name){ if(done)return; done=true; loadWeather(lat,lon,name); }
+  if(!navigator.geolocation){once(FALLBACK.lat,FALLBACK.lon,FALLBACK.name+' (default)');return;}
+  /* if location never answers (blocked, or permission prompt ignored), show the default city after 6s */
+  var wd=setTimeout(function(){once(FALLBACK.lat,FALLBACK.lon,FALLBACK.name+' (location off)');},6000);
   navigator.geolocation.getCurrentPosition(
-    function(p){loadWeather(p.coords.latitude.toFixed(3),p.coords.longitude.toFixed(3));},
-    function(){loadWeather(FALLBACK.lat,FALLBACK.lon,FALLBACK.name+' (location off)');},
+    function(p){clearTimeout(wd);if(done){loadWeather(p.coords.latitude.toFixed(3),p.coords.longitude.toFixed(3));}else{once(p.coords.latitude.toFixed(3),p.coords.longitude.toFixed(3));}},
+    function(){clearTimeout(wd);once(FALLBACK.lat,FALLBACK.lon,FALLBACK.name+' (location off)');},
     {maximumAge:1800000,timeout:8000});
 }
 startWeather(); setInterval(startWeather, 1800000);
