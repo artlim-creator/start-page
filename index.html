@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow">
 <title>Start</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;family=Instrument+Sans:wght@400;500;600&amp;display=swap">
@@ -130,6 +132,15 @@ var NAME = 'Art';
 // It supplies the next 5 Outlook events AND today's 8 AI-written quotes.
 var FEED_URL = '';
 try{var _f=localStorage.getItem('sp_feed_url');if(_f)FEED_URL=_f;}catch(e){}
+// Reconnect link: https://.../start-page/#feed=<feed link>  (the part after # never leaves your browser)
+try{
+  var _h=location.hash||'';
+  if(_h.indexOf('#feed=')===0){
+    var _u=decodeURIComponent(_h.slice(6));
+    if(_u.indexOf('https://script.google.com/')===0){FEED_URL=_u;try{localStorage.setItem('sp_feed_url',_u);}catch(e){}}
+    history.replaceState(null,'',location.pathname+location.search);
+  }
+}catch(e){}
 // Used when the browser can't share its location
 var FALLBACK = { lat: 18.7883, lon: 98.9853, name: 'Chiang Mai' };
 /* ==================== */
@@ -278,7 +289,14 @@ function loadFeed(){
     setQuotes(null,'Built-in quotes. Connect the feed for 8 new AI-written quotes each day.');
     return;
   }
-  document.getElementById('feed-foot').innerHTML='<button type="button" id="feed-reset" class="muted" style="background:none;border:none;padding:0;font:inherit;cursor:pointer;text-decoration:underline">Disconnect feed</button>';
+  var BTN='background:none;border:none;padding:0;font:inherit;cursor:pointer;text-decoration:underline;margin-right:14px';
+  document.getElementById('feed-foot').innerHTML='<button type="button" id="feed-copy" class="muted" style="'+BTN+'">Copy reconnect link</button><button type="button" id="feed-reset" class="muted" style="'+BTN+'">Disconnect feed</button><span id="feed-msg" class="muted"></span>';
+  document.getElementById('feed-copy').onclick=function(){
+    var link=location.origin+location.pathname+'#feed='+encodeURIComponent(FEED_URL), m=document.getElementById('feed-msg');
+    function done(){m.textContent='Copied. Save it as a bookmark.';}
+    function fail(){m.innerHTML='<input readonly style="width:100%;margin-top:6px;font:inherit;font-size:11px">';var i=m.firstChild;i.value=link;i.focus();i.select();}
+    try{navigator.clipboard.writeText(link).then(done,fail);}catch(e){fail();}
+  };
   document.getElementById('feed-reset').onclick=function(){try{localStorage.removeItem('sp_feed_url');localStorage.removeItem('sp_feed');}catch(e){}location.reload();};
   // show the last result instantly, then refresh
   try{var c=JSON.parse(localStorage.getItem('sp_feed')||'null');if(c&&c.day===new Date().toDateString())applyFeed(c.data);}catch(e){}
